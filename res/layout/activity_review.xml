@@ -11,6 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -127,6 +128,22 @@
                 android:orientation="vertical"
                 android:padding="5dp" >
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/review_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/review_submit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/review_submit_btn_text" />
         </LinearLayout>
     </LinearLayout>
 

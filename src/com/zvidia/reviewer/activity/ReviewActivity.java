@@ -6,7 +6,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.zvidia.review.location.BaiduLocation;
 import com.zvidia.reviewer.R;
 import com.zvidia.reviewer.http.ServerHttpClient;
 import com.zvidia.reviewer.qrcode.Intents;
@@ -28,6 +31,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.MenuItem.OnMenuItemClickListener;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -44,10 +49,12 @@ public class ReviewActivity extends Activity {
 	protected TextView mStationId;
 	protected TextView mStationName;
 	protected TextView mStationAddress;
+	protected Button mReviewSubmitBtn;
 	protected LinearLayout mCheckpingList;
 	protected ProgressDialog progressDialog;
 	protected AlertDialog dialog;
 	protected ReviewFormProcessor formProcessor;
+	protected BaiduLocation location;
 
 	protected boolean validate;
 
@@ -144,6 +151,7 @@ public class ReviewActivity extends Activity {
 		setContentView(R.layout.activity_review);
 		handler = new ReviewHandler(this);
 		formProcessor = new ReviewFormProcessor(this);
+		location = new BaiduLocation(this);
 		mCheckpointLabel = (TextView) findViewById(R.id.checkpoint_label);
 		mStationLabel = (TextView) findViewById(R.id.station_label);
 		mStationNameLabel = (TextView) findViewById(R.id.station_name_label);
@@ -166,6 +174,7 @@ public class ReviewActivity extends Activity {
 		mStationName = (TextView) findViewById(R.id.station_name);
 		mStationAddress = (TextView) findViewById(R.id.station_address);
 		mCheckpingList = (LinearLayout) findViewById(R.id.checkpoint_list);
+		mReviewSubmitBtn = (Button) findViewById(R.id.review_submit_btn);
 		final JsonHttpResponseHandler checkpointResponseHandler = new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONObject response) {
@@ -253,7 +262,110 @@ public class ReviewActivity extends Activity {
 		dialog.setButton(DialogInterface.BUTTON_POSITIVE, "确定", ok);
 		Message cancel = Message.obtain(handler, R.id.review_submit_return);
 		dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "返回修改", cancel);
+
+		mReviewSubmitBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				validate = formProcessor.validate();
+				if (validate) {
+					showProgress(true);
+
+					final JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
+						@Override
+						public void onSuccess(JSONObject response) {
+							super.onSuccess(response);
+							posting = false;
+							Log.d(TAG, response.toString());
+							try {
+								int code = response.getInt("code");
+								if (code == -1) {
+									mReviewId.setText(response.getJSONObject("addition").getString("id"));
+									dialog.setMessage("巡检结果提交成功");
+									dialog.show();
+								} else {
+									validate = false;
+									dialog.setMessage("巡检结果提交失败");
+
+								}
+							} catch (JSONException e) {
+								validate = false;
+								dialog.setMessage("巡检结果提交失败");
+								Log.e(TAG, e.getMessage(), e);
+							}
+							dialog.show();
+							showProgress(false);
+							location.stop();
+
+						}
+
+						@Override
+						public void onFailure(Throwable error, String content) {
+							super.onFailure(error, content);
+							posting = false;
+							Log.e(TAG, error.getMessage(), error);
+							showProgress(false);
+							dialog.setMessage("巡检结果提交失败");
+							dialog.show();
+							location.stop();
+						}
+					};
+					try {
+						location.register(new BDLocationListener() {
+							@Override
+							public void onReceivePoi(BDLocation location) {
+							}
+
+							@Override
+							public void onReceiveLocation(BDLocation location) {
+								if (location == null)
+									return;
+								if (posting) {
+									Log.e(TAG, "review data is posting");
+									return;
+								}
+								int locType = location.getLocType();
+								double latitude = location.getLatitude();
+								double longitude = location.getLongitude();
+								float radius = location.getRadius();
+								String address = "";
+								if (locType == BDLocation.TypeNetWorkLocation) {
+									address = location.getAddrStr();
+								}
+								try {
+									JSONObject reviewResult = formProcessor.getReviewResult();
+									reviewResult.put("id", mReviewId.getText());
+									reviewResult.put("locType", locType);
+									reviewResult.put("latitude", latitude);
+									reviewResult.put("longitude", longitude);
+									reviewResult.put("radius", radius);
+									reviewResult.put("address", address);
+									Log.d(TAG, reviewResult.toString());
+									ServerHttpClient.post(ReviewActivity.this, "/client/review", reviewResult, responseHandler);
+									posting = true;
+								} catch (JSONException e) {
+									Log.e(TAG, e.getMessage(), e);
+								} catch (UnsupportedEncodingException e) {
+									Log.e(TAG, e.getMessage(), e);
+								}
+							}
+						});
+						location.start();
+						location.requestLocation();
+					} catch (Exception e) {
+						Log.e(TAG, e.getMessage(), e);
+					}
+				} else {
+					dialog.setMessage("请选择每项缺陷巡检结果,否则将无法提交巡检结果");
+					dialog.show();
+				}
+
+			}
+		});
 	}
+
+	protected boolean posting;
 
 	@Override
 	protected void onStart() {
@@ -270,76 +382,6 @@ public class ReviewActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.review, menu);
-		MenuItem actionItem = menu.add("Action Button");
-
-		// Items that show as actions should favor the "if room" setting, which
-		// will
-		// prevent too many buttons from crowding the bar. Extra items will show
-		// in the
-		// overflow area.
-		actionItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
-		// Items that show as actions are strongly encouraged to use an icon.
-		// These icons are shown without a text description, and therefore
-		// should
-		// be sufficiently descriptive on their own.
-		actionItem.setIcon(R.drawable.upload);
-		OnMenuItemClickListener menuItemClickListener = new OnMenuItemClickListener() {
-
-			@Override
-			public boolean onMenuItemClick(MenuItem item) {
-				validate = formProcessor.validate();
-				if (validate) {
-					showProgress(true);
-					JSONObject reviewResult = formProcessor.getReviewResult();
-					JsonHttpResponseHandler responseHandler = new JsonHttpResponseHandler() {
-						@Override
-						public void onSuccess(JSONObject response) {
-							super.onSuccess(response);
-							Log.d(TAG, response.toString());
-							try {
-								int code = response.getInt("code");
-								if (code == -1) {
-									dialog.setMessage("巡检结果提交成功");
-									dialog.show();
-									mReviewId.setText(response.getJSONObject("addition").getString("id"));
-								} else {
-									validate = false;
-									dialog.setMessage("巡检结果提交失败");
-
-								}
-							} catch (JSONException e) {
-								validate = false;
-								dialog.setMessage("巡检结果提交失败");
-								Log.e(TAG, e.getMessage(), e);
-							}
-							dialog.show();
-							showProgress(false);
-						}
-
-						@Override
-						public void onFailure(Throwable error, String content) {
-							super.onFailure(error, content);
-							Log.e(TAG, error.getMessage(), error);
-							showProgress(false);
-							dialog.setMessage("巡检结果提交失败");
-							dialog.show();
-						}
-					};
-					try {
-						ServerHttpClient.post(ReviewActivity.this, "/client/review", reviewResult, responseHandler);
-					} catch (UnsupportedEncodingException e) {
-						Log.e(TAG, e.getMessage(), e);
-					}
-					return true;
-				} else {
-					dialog.setMessage("请选择每项缺陷巡检结果,否则将无法提交巡检结果");
-					dialog.show();
-					return true;
-				}
-			}
-		};
-		actionItem.setOnMenuItemClickListener(menuItemClickListener);
 		return true;
 	}
 }

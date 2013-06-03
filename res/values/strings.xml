@@ -145,5 +145,6 @@
     <string name="checkpoint_res_normal">正常</string>
     <string name="checkpoint_res_abnormal">异常</string>
     <string name="review_res_error_exception">请选择巡检结果</string>
+    <string name="review_submit_btn_text">提交巡检结果</string>
 
 </resources>

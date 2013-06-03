@@ -56,38 +56,38 @@ public final class R {
         public static final int upload=0x7f020006;
     }
     public static final class id {
-        public static final int action_forgot_password=0x7f090033;
-        public static final int action_settings=0x7f09002e;
-        public static final int btn_login=0x7f09002d;
+        public static final int action_forgot_password=0x7f090035;
+        public static final int action_settings=0x7f090030;
+        public static final int btn_login=0x7f09002f;
         public static final int button_scan=0x7f090014;
         public static final int camera_btn_layout=0x7f09000b;
-        public static final int checkbox_abnormal=0x7f090027;
-        public static final int checkbox_normal=0x7f090026;
-        public static final int checkbox_res_group=0x7f090025;
-        public static final int checkbox_res_label=0x7f090024;
+        public static final int checkbox_abnormal=0x7f090029;
+        public static final int checkbox_normal=0x7f090028;
+        public static final int checkbox_res_group=0x7f090027;
+        public static final int checkbox_res_label=0x7f090026;
         public static final int checkpoint_containter=0x7f09001f;
         public static final int checkpoint_label=0x7f09001e;
         public static final int checkpoint_list=0x7f090020;
-        public static final int checkponit_alarmable=0x7f090022;
-        public static final int checkponit_id=0x7f090021;
-        public static final int checkponit_text=0x7f090023;
+        public static final int checkponit_alarmable=0x7f090024;
+        public static final int checkponit_id=0x7f090023;
+        public static final int checkponit_text=0x7f090025;
         public static final int decode=0x7f090000;
         public static final int decode_failed=0x7f090001;
         public static final int decode_succeeded=0x7f090002;
         public static final int do_scan_btn=0x7f09000c;
-        public static final int et_account=0x7f09002b;
-        public static final int et_password=0x7f09002c;
-        public static final int history_detail=0x7f090029;
-        public static final int history_title=0x7f090028;
-        public static final int imageView1=0x7f09002a;
+        public static final int et_account=0x7f09002d;
+        public static final int et_password=0x7f09002e;
+        public static final int history_detail=0x7f09002b;
+        public static final int history_title=0x7f09002a;
+        public static final int imageView1=0x7f09002c;
         public static final int launch_product_query=0x7f090003;
         public static final int login=0x7f090012;
         public static final int login_form=0x7f09000f;
-        public static final int menu_encode=0x7f090030;
-        public static final int menu_history_clear_text=0x7f090032;
-        public static final int menu_history_send=0x7f090031;
-        public static final int menu_settings=0x7f090034;
-        public static final int menu_share=0x7f09002f;
+        public static final int menu_encode=0x7f090032;
+        public static final int menu_history_clear_text=0x7f090034;
+        public static final int menu_history_send=0x7f090033;
+        public static final int menu_settings=0x7f090036;
+        public static final int menu_share=0x7f090031;
         public static final int msg_layout=0x7f09000d;
         public static final int password=0x7f090011;
         public static final int phone=0x7f090010;
@@ -96,6 +96,8 @@ public final class R {
         public static final int restart_preview=0x7f090005;
         public static final int return_scan_result=0x7f090006;
         public static final int review_id=0x7f090017;
+        public static final int review_submit=0x7f090021;
+        public static final int review_submit_btn=0x7f090022;
         public static final int review_submit_done=0x7f090007;
         public static final int review_submit_return=0x7f090008;
         public static final int sign_in_button=0x7f090013;
@@ -131,10 +133,10 @@ public final class R {
         public static final int beep=0x7f050000;
     }
     public static final class string {
-        public static final int action_forgot_password=0x7f0a008c;
+        public static final int action_forgot_password=0x7f0a008d;
         public static final int action_settings=0x7f0a0001;
-        public static final int action_sign_in_register=0x7f0a008a;
-        public static final int action_sign_in_short=0x7f0a008b;
+        public static final int action_sign_in_register=0x7f0a008b;
+        public static final int action_sign_in_short=0x7f0a008c;
         public static final int app_desc=0x7f0a0004;
         public static final int app_name=0x7f0a0000;
         public static final int auto_login=0x7f0a0008;
@@ -179,11 +181,11 @@ public final class R {
         public static final int contents_phone=0x7f0a004f;
         public static final int contents_sms=0x7f0a0050;
         public static final int contents_text=0x7f0a0051;
-        public static final int error_exception=0x7f0a0092;
-        public static final int error_field_required=0x7f0a0091;
-        public static final int error_incorrect_password=0x7f0a0090;
-        public static final int error_invalid_password=0x7f0a008f;
-        public static final int error_invalid_phone=0x7f0a008e;
+        public static final int error_exception=0x7f0a0093;
+        public static final int error_field_required=0x7f0a0092;
+        public static final int error_incorrect_password=0x7f0a0091;
+        public static final int error_invalid_password=0x7f0a0090;
+        public static final int error_invalid_phone=0x7f0a008f;
         public static final int hello_world=0x7f0a0002;
         /**  history 
          */
@@ -195,7 +197,7 @@ public final class R {
         public static final int history_send=0x7f0a007a;
         public static final int history_title=0x7f0a007b;
         public static final int login_btn=0x7f0a000a;
-        public static final int login_progress_signing_in=0x7f0a008d;
+        public static final int login_progress_signing_in=0x7f0a008e;
         public static final int menu_encode_mecard=0x7f0a006f;
         public static final int menu_encode_vcard=0x7f0a0070;
         public static final int menu_help=0x7f0a0071;
@@ -267,14 +269,15 @@ public final class R {
         public static final int preferences_try_bsplus=0x7f0a0047;
         public static final int preferences_try_bsplus_summary=0x7f0a0048;
         public static final int preferences_vibrate_title=0x7f0a0049;
-        public static final int prompt_password=0x7f0a0089;
+        public static final int prompt_password=0x7f0a008a;
         /**  Strings related to login 
          */
-        public static final int prompt_phone=0x7f0a0088;
+        public static final int prompt_phone=0x7f0a0089;
         public static final int register_btn=0x7f0a0009;
         public static final int res_img_desc=0x7f0a0003;
         public static final int result_text=0x7f0a006e;
         public static final int review_res_error_exception=0x7f0a0086;
+        public static final int review_submit_btn_text=0x7f0a0087;
         public static final int statin_address_label=0x7f0a0081;
         public static final int statin_name_label=0x7f0a0080;
         /**  review 
@@ -282,7 +285,7 @@ public final class R {
         public static final int station_label=0x7f0a007f;
         public static final int title_activity_capture=0x7f0a004a;
         public static final int title_activity_encode=0x7f0a004b;
-        public static final int title_activity_login=0x7f0a0087;
+        public static final int title_activity_login=0x7f0a0088;
         public static final int title_activity_review=0x7f0a007c;
         public static final int title_section1=0x7f0a007d;
         public static final int title_section2=0x7f0a007e;

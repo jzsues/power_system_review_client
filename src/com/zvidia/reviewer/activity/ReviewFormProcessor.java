@@ -40,8 +40,8 @@ public class ReviewFormProcessor {
 			station.put("id", reviewActivity.getmStationId().getText());
 			station.put("name", reviewActivity.getmStationName().getText());
 			station.put("address", reviewActivity.getmStationAddress().getText());
-			Log.d(TAG, "get station info:");
-			Log.d(TAG, station.toString());
+			//Log.d(TAG, "get station info:");
+			//Log.d(TAG, station.toString());
 			return station;
 		} catch (Exception e) {
 			Log.e(TAG, "get station with exception", e);
@@ -115,8 +115,8 @@ public class ReviewFormProcessor {
 			user.put("id", id);
 			user.put("username", username);
 			user.put("password", password);
-			Log.d(TAG, "get user info:");
-			Log.d(TAG, user.toString());
+			//Log.d(TAG, "get user info:");
+			//Log.d(TAG, user.toString());
 			return user;
 		} catch (Exception e) {
 			Log.e(TAG, "get user info with exception", e);
@@ -131,14 +131,13 @@ public class ReviewFormProcessor {
 			JSONObject stationInfo = getStation();
 			JSONObject userInfo = getUserInfo();
 			JSONArray checkpointResults = getCheckpointResults();
-			CharSequence reviewId = reviewActivity.getmReviewId().getText();
-			result.put("id", reviewId);
+			//CharSequence reviewId = reviewActivity.getmReviewId().getText();
 			result.put("userInfo", userInfo);
 			result.put("stationInfo", stationInfo);
 			result.put("reviewItemInfos", checkpointResults);
 			result.put("reviewTime", (new Date()).getTime());
-			Log.d(TAG, "get  review result info:");
-			Log.d(TAG, result.toString());
+			//Log.d(TAG, "get  review result info:");
+			//Log.d(TAG, result.toString());
 			return result;
 		} catch (JSONException e) {
 			Log.e(TAG, "get review result with exception", e);

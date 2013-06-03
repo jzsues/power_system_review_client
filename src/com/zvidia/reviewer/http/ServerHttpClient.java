@@ -6,6 +6,7 @@ package com.zvidia.reviewer.http;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.http.entity.StringEntity;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -36,7 +37,7 @@ public class ServerHttpClient {
 
 	public static void post(Context context, String url, JSONObject json, AsyncHttpResponseHandler responseHandler)
 			throws UnsupportedEncodingException {
-		StringEntity se = new StringEntity(json.toString());
+		StringEntity se = new StringEntity(json.toString(), HTTP.UTF_8);
 		client.post(context, getAbsoluteUrl(url), se, "application/json", responseHandler);
 	}
 

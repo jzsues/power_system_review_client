@@ -66,8 +66,12 @@ public final class CameraConfigurationManager {
 		WindowManager manager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
 		Display display = manager.getDefaultDisplay();
 		screenResolution = new Point();
+		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			screenResolution = new Point(display.getWidth(), display.getHeight());
+		} else {
+			display.getSize(screenResolution);
+		}
 
-		display.getSize(screenResolution);
 		// We're landscape-only, and have apparently seen issues with display
 		// thinking it's portrait
 		// when waking from sleep. If it's not landscape, assume it's mistaken
