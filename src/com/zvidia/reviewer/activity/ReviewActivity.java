@@ -166,6 +166,10 @@ public class ReviewActivity extends Activity {
 		// byte[] byteArray =
 		// intent.getByteArrayExtra(CaptureAction.BARCODE_BITMAP);
 		String result = intent.getStringExtra(Intents.Scan.QRCODE_SCAN_RESULT);
+		if (result != null) {
+			String[] splits = result.split("ZVIDIAQRCODE");
+			result = splits[0] + "ZVIDIAQRCODE" + "name";
+		}
 		// float factor =
 		// intent.getFloatExtra(CaptureAction.BARCODE_SCALED_FACTOR, 1L);
 		Log.d(TAG, result);
